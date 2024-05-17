@@ -105,13 +105,13 @@ namespace Sarissa
                     // もし遷移条件を満たしていて遷移名が一致するなら
                     if ((condition2transist == equalsTo) && t.Name == name)
                     {
-                        if (t.SFrom == _currentPlayingState) // 現在左ステートなら
+                        if (t.From == _currentPlayingState) // 現在左ステートなら
                         {
                             _currentPlayingState.Exit(); // 右ステートへの遷移条件を満たしたので抜ける
                             if (OnExited != null)
                                 OnExited(_currentTransitionName);
                             if (isTrigger) condition2transist = !equalsTo; // IsTrigger が trueなら
-                            _currentPlayingState = t.STo; // 現在のステートを右ステートに更新、遷移はそのまま
+                            _currentPlayingState = t.To; // 現在のステートを右ステートに更新、遷移はそのまま
                             _currentPlayingState.Entry(); // 現在のステートの初回起動処理を呼ぶ
                             if (OnEntered != null)
                                 OnEntered(_currentTransitionName);
@@ -142,7 +142,7 @@ namespace Sarissa
                         if (OnExited != null)
                             OnExited(_currentTransitionName);
                         if (isTrigger) condition2transist = !equalsTo; // 遷移条件を初期化
-                        _currentPlayingState = t.STo; // 現在のステートを右ステートに更新、遷移はそのまま
+                        _currentPlayingState = t.To; // 現在のステートを右ステートに更新、遷移はそのまま
                         _currentPlayingState.Entry(); // 現在のステートの初回起動処理を呼ぶ
                         if (OnEntered != null)
                             OnEntered(_currentTransitionName);
@@ -187,9 +187,9 @@ namespace Sarissa
         public class StateMachineTransition
         {
             IState _from;
-            public IState SFrom => _from;
+            public IState From => _from;
             IState _to;
-            public IState STo => _to;
+            public IState To => _to;
             string _name;
             public string Name => _name;
 

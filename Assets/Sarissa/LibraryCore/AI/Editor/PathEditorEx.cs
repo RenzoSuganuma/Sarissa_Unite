@@ -5,7 +5,7 @@ using Sarissa;
 
 public class PathEditorEx : MonoBehaviour
 {
-    [MenuItem("GameObject/SgLib/AI/PatrollingPath", false, 10)]
+    [MenuItem("GameObject/Sarissa/Path", false, 10)]
     static void CreateGameObject(MenuCommand menuCommand)
     {
         // Create a custom game object
