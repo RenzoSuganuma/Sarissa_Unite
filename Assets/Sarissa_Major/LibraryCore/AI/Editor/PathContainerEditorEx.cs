@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using Sarissa;
 
-public class PathEditorEx : MonoBehaviour
+public class PathContainerEditorEx : MonoBehaviour
 {
     [MenuItem("GameObject/Sarissa/Path", false, 10)]
     static void CreateGameObject(MenuCommand menuCommand)

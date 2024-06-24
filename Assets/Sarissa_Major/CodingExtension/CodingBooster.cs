@@ -3,25 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Sarissa.CodingBooster
+namespace Sarissa
 {
-    public class CBooster
+    public static class GameObjectExtentions
     {
-        /// <summary>
-        /// 型パラメータに対応するクラスを継承するコンポーネントを返す
-        /// </summary>
-        public List<T> GetDerivedComponents<T>()
-        {
-            var list = GameObject.FindObjectsOfType<GameObject>()
-                .Where(_ => _.GetComponent<T>() != null)
-                .Select(_ => _.GetComponent<T>()).ToList();
-            return list;
-        }
-
         /// <summary>
         /// 子オブジェクト親オブジェクトかそのオブジェクトに望むコンポーネントがあればそれを返す
         /// </summary>
-        public T GetComponentInHierarchie<T>(GameObject target) where T : Component
+        public static T GetComponentFromSibiling<T>(this GameObject target) where T : Component
         {
             if (target.GetComponent<T>() != null)
             {
@@ -37,10 +26,8 @@ namespace Sarissa.CodingBooster
             }
             else
             {
-                throw new Exception("Component Does Not Found");
+                return null;
             }
-
-            return null;
         }
     }
 }
