@@ -122,7 +122,7 @@ public static class Ryden
     /// <param name="normalDir">切断面の法線</param>
     /// <param name="capMat">切断面のマテリアル</param>
     /// <returns></returns>
-    public static GameObject[] CutMesh(GameObject victim, Vector3 anchorPos, Vector3 normalDir, Material capMat)
+    public static GameObject[] CutMesh(GameObject victim, Vector3 anchorPos, Vector3 normalDir, Material capMat, bool makeGap)
     {
         // 対象のローカル座標から平面を生成
         _blade = new Plane(
@@ -243,6 +243,12 @@ public static class Ryden
 
         leftObj.GetComponent<MeshRenderer>().materials = materials;
         rightObj.GetComponent<MeshRenderer>().materials = materials;
+
+        if (makeGap)
+        {
+            leftObj.transform.position -= normalDir * .1f;
+            rightObj.transform.position += normalDir * .1f;
+        }
 
         return new GameObject[] { leftObj, rightObj };
     }
