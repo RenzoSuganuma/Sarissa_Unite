@@ -16,9 +16,6 @@ public class RydenUser : MonoBehaviour
     private void Start()
     {
         _planeNormal = _planeObject.transform.up;
-
-        var result = Ryden.CutMesh(_victimObject, Vector3.zero, _planeNormal, _capMaterial, true);
-        _cuttedMeshes.InsertRange(_cuttedMeshes.Count > 0 ? _cuttedMeshes.Count - 1 : 0, result);
     }
 
     private void Update()
@@ -41,20 +38,7 @@ public class RydenUser : MonoBehaviour
     {
         if (GUI.Button(new Rect(10, 700, 100, 50), "CUT"))
         {
-            CutTheMesh();
+            RydenHelper.CutTheMesh(_victimObject, _cuttedMeshes, Vector3.zero, _planeNormal, _capMaterial);
         }
-    }
-
-    private void CutTheMesh()
-    {
-        List<GameObject> results = new List<GameObject>();
-
-        foreach (var mesh in _cuttedMeshes)
-        {
-            var result = Ryden.CutMesh(mesh, Vector3.zero, _planeNormal, _capMaterial, true);
-            results.InsertRange(results.Count > 0 ? results.Count - 1 : 0, result);
-        }
-        
-        _cuttedMeshes.InsertRange(_cuttedMeshes.Count > 0 ? _cuttedMeshes.Count - 1 : 0, results);
     }
 }
