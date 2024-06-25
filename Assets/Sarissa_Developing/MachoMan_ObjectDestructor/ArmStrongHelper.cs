@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 /// <summary> Machomanクラスの窓口 </summary>
-public static class MachomanHelper
+public static class ArmStrongHelper
 {
     /// <summary> 要素の重複を許さないでリストにリストを追加する </summary>
     /// <param name="targetList"></param>

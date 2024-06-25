@@ -7,7 +7,7 @@ using UnityEngine;
 
 /// <summary> 被破壊メッシュを生成する機能を提供する </summary>
 // Ver 1.0.0
-public static class MachoMan
+public static class ArmStrong
 {
     public static string CuttedMeshesFolderAbsolutePath = "Assets/Resources/Machoman/CuttedMeshes/";
     public static string CuttedMeshesPrefabFolderAbsolutePath = "Assets/Resources/Machoman/Prefabs/";

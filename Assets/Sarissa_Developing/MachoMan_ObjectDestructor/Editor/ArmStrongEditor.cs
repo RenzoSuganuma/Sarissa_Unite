@@ -3,7 +3,7 @@ using UnityEngine;
 
 /// <summary> MachomanUserのインスペクタを拡張する。ボタンの追加をする </summary>
 [CustomEditor(typeof(ArmStrongUser))]
-public class MachoManEditor : Editor // MachoManクラスを拡張する
+public class ArmStrongEditor : Editor // MachoManクラスを拡張する
 {
     public override void OnInspectorGUI()
     {

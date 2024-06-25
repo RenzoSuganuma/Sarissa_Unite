@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 using Random = System.Random;
 
 /// <summary> これがアタッチされているオブジェクトをヒエラルキーに投げる。 </summary>
-public class MachomanUser : MonoBehaviour
+public class ArmStrongUser : MonoBehaviour
 {
     public enum FragmentationMode
     {
@@ -39,53 +39,55 @@ public class MachomanUser : MonoBehaviour
 
     public void CheckDirectory() // 保存パスが存在するか確認する
     {
-        MachoMan.FindSaveTargetDirectory(MachoMan.CuttedMeshesFolderAbsolutePath + $"{_objectName}/");
-        MachoMan.FindSaveTargetDirectory(MachoMan.CuttedMeshesPrefabFolderAbsolutePath);
+        ArmStrong.FindSaveTargetDirectory(ArmStrong.CuttedMeshesFolderAbsolutePath + $"{_objectName}/");
+        ArmStrong.FindSaveTargetDirectory(ArmStrong.CuttedMeshesPrefabFolderAbsolutePath);
     }
 
     public void CutMesh() // メッシュのカットを実施する
     {
         if (_victimObject is null) return;
 
-        MachomanHelper.CutTheMesh(_victimObject, _cuttedMeshes, Vector3.zero, _planeNormal, _capMaterial);
+        ArmStrongHelper.CutTheMesh(_victimObject, _cuttedMeshes, Vector3.zero, _planeNormal, _capMaterial);
     }
 
     public void SaveCuttedMeshes() // 保存先のパスにメッシュのアセットとプレハブを保存する
     {
         if (_cuttedMeshes.Count < 1) return;
 
-        MachoMan.FindSaveTargetDirectory(MachoMan.CuttedMeshesFolderAbsolutePath + $"{_objectName}/");
-        MachoMan.FindSaveTargetDirectory(MachoMan.CuttedMeshesPrefabFolderAbsolutePath);
+        ArmStrong.FindSaveTargetDirectory(ArmStrong.CuttedMeshesFolderAbsolutePath + $"{_objectName}/");
+        ArmStrong.FindSaveTargetDirectory(ArmStrong.CuttedMeshesPrefabFolderAbsolutePath);
 
         _cuttedMeshes[0].name = _objectName;
-
-        // カットしたメッシュは一つのオブジェクトにする
-        for (int i = 1; i < _cuttedMeshes.Count; ++i)
-        {
-            _cuttedMeshes[i].transform.parent = _cuttedMeshes[0].transform;
-        }
-
+        
         // コンポーネントのアタッチ
         if (_fragmentationMode == FragmentationMode.WithPhysics)
         {
             foreach (var cuttedMesh in _cuttedMeshes)
             {
                 cuttedMesh.AddComponent<MeshCollider>();
+                cuttedMesh.GetComponent<MeshCollider>().sharedMesh = cuttedMesh.GetComponent<MeshFilter>().mesh;
+                cuttedMesh.GetComponent<MeshCollider>().convex = true;
                 cuttedMesh.AddComponent<Rigidbody>();
             }
         }
 
+        // カットしたメッシュは一つのオブジェクトにする
+        for (int i = 1; i < _cuttedMeshes.Count; ++i)
+        {
+            _cuttedMeshes[i].transform.parent = _cuttedMeshes[0].transform;
+        }
+        
         // 保存処理
         for (int i = 0; i < _cuttedMeshes.Count; ++i)
         {
             var mesh = _cuttedMeshes[i].GetComponent<MeshFilter>().mesh;
 
             AssetDatabase.CreateAsset(mesh,
-                MachoMan.CuttedMeshesFolderAbsolutePath + $"{_objectName}/{mesh.name}_{i}.asset");
+                ArmStrong.CuttedMeshesFolderAbsolutePath + $"{_objectName}/{mesh.name}_{i}.asset");
         }
 
         PrefabUtility.SaveAsPrefabAsset(_cuttedMeshes[0],
-            MachoMan.CuttedMeshesPrefabFolderAbsolutePath + $"{_objectName}.prefab");
+            ArmStrong.CuttedMeshesPrefabFolderAbsolutePath + $"{_objectName}.prefab");
     }
 
     public void RunFragmentation()
