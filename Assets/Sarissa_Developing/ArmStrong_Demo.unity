@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 1620282293}
-  _forceDir: {x: 3.66, y: 1.54, z: 2.03}
+  _forceDir: {x: 0, y: 5.42, z: 0}
 --- !u!4 &255400427
 Transform:
   m_ObjectHideFlags: 0

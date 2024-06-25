@@ -28,7 +28,7 @@ public static class ArmStrongHelper
     /// <param name="capMaterial"></param>
     /// <param name="makeGap"></param>
     public static void CutTheMesh(GameObject victim,
-        List<GameObject> cuttedMeshes, Vector3 anchorPos, Vector3 planeNormal, Material capMaterial)
+        List<GameObject> cuttedMeshes, Vector3 anchorPos, Vector3 planeNormal, Material capMaterial, bool makeGap = false)
     {
         List<GameObject> results = new List<GameObject>();
 
@@ -36,7 +36,7 @@ public static class ArmStrongHelper
         {
             foreach (var mesh in cuttedMeshes)
             {
-                var result = Ryden.CutMesh(mesh, anchorPos, planeNormal, capMaterial, false);
+                var result = Ryden.CutMesh(mesh, anchorPos, planeNormal, capMaterial, makeGap);
                 AddCuttedListToList(results, result.ToList());
             }
 
@@ -45,7 +45,7 @@ public static class ArmStrongHelper
         else // まだ切られてない場合
         {
             cuttedMeshes.Clear();
-            var result = Ryden.CutMesh(victim, anchorPos, planeNormal, capMaterial, false);
+            var result = Ryden.CutMesh(victim, anchorPos, planeNormal, capMaterial, makeGap);
             AddCuttedListToList(cuttedMeshes, result.ToList());
         }
     }

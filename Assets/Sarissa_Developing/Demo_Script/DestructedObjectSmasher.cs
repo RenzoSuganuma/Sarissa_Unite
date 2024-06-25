@@ -17,7 +17,7 @@ public class DestructedObjectSmasher : MonoBehaviour
 
     private void OnGUI()
     {
-        if (GUI.Button(new Rect(500, 700, 300, 50), "PUNCH"))
+        if (GUI.Button(new Rect(700, 1000, 300, 50), "PUNCH"))
         {
             var c = _target.GetChildObjects();
             c.ForEach(_ => _.parent = null);

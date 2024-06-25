@@ -755,7 +755,8 @@ MonoBehaviour:
   _capMaterial: {fileID: 2100000, guid: 039907ed37ec48847a514ff3bc010230, type: 2}
   _victimObject: {fileID: 702765320}
   _planeObject: {fileID: 459399977}
-  _objectName: Cutted Mesh
+  _objectName: Harasho
+  _makeGap: 1
 --- !u!114 &2114199048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -770,7 +771,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rotateSpeed: 70
   _capMaterial: {fileID: 2100000, guid: 039907ed37ec48847a514ff3bc010230, type: 2}
-  _victimObject: {fileID: 0}
+  _victimObject: {fileID: 702765320}
   _planeObject: {fileID: 459399977}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -11,27 +11,14 @@ public class ArmStrongEditor : Editor // MachoManクラスを拡張する
 
         ArmStrongUser user = target as ArmStrongUser;
 
-        switch (user.CutMode)
+        if (GUILayout.Button("Cut"))
         {
-            case ArmStrongUser.CuttingMode.Manual:
-            {
-                if (GUILayout.Button("Cut Meshes"))
-                {
-                    user.CutMesh();
-                }
-
-                break;
-            }
-
-            case ArmStrongUser.CuttingMode.Automatic:
-            {
-                if (GUILayout.Button("Execute Fragmentation"))
-                {
-                    user.RunFragmentation();
-                }
-
-                break;
-            }
+            user.CutMesh();
+        }
+        
+        if (GUILayout.Button("Cut Randomly"))
+        {
+            user.CutRandomly();
         }
 
         if (GUILayout.Button("Check Directory"))

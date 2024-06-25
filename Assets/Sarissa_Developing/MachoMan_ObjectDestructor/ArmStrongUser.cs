@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -15,22 +16,17 @@ public class ArmStrongUser : MonoBehaviour
         WithPhysics,
     }
 
-    public enum CuttingMode
-    {
-        Manual,
-        Automatic,
-    }
-
     [SerializeField] private FragmentationMode _fragmentationMode;
-    [SerializeField] private CuttingMode _cuttingMode;
     [SerializeField] private float _rotateSpeed;
     [SerializeField] private Material _capMaterial;
     [SerializeField] private GameObject _victimObject;
     [SerializeField] private GameObject _planeObject;
     [SerializeField] private string _objectName = "Cutted Mesh";
+    [SerializeField] private bool _makeGap = false;
+
+    [SerializeField, Range(0, 5)] private int _fragType;
 
     public FragmentationMode FragMode => _fragmentationMode;
-    public CuttingMode CutMode => _cuttingMode;
 
     private Vector3 _planeNormal;
     private float _deltaAngle;
@@ -47,8 +43,134 @@ public class ArmStrongUser : MonoBehaviour
     {
         if (_victimObject is null) return;
 
-        ArmStrongHelper.CutTheMesh(_victimObject, _cuttedMeshes, Vector3.zero, _planeNormal, _capMaterial);
+        ArmStrongHelper.CutTheMesh(_victimObject, _cuttedMeshes, _planeObject.transform.position,
+            _planeObject.transform.up,
+            _capMaterial, _makeGap);
     }
+
+    public void CutRandomly()
+    {
+        if (_fragType > 1) _fragType = 1;
+        Invoke($"Frag_{_fragType}", 0);
+    }
+
+    #region 破壊パターン
+
+    private void Frag_0()
+    {
+        var r = _random.Next(0, 256);
+        var r1 = _random.Next(0, 256);
+        var r2 = _random.Next(0, 256);
+
+        _planeObject.transform.up = Vector3.up;
+        CutMesh();
+
+        _planeObject.transform.up = Vector3.right;
+        CutMesh();
+
+        _planeObject.transform.position += Vector3.down * .5f;
+
+        var v = (Vector3.right - Vector3.up).normalized;
+        _planeObject.transform.up = v;
+        CutMesh();
+
+        v = (Vector3.right + Vector3.up).normalized;
+        _planeObject.transform.up = v;
+        CutMesh();
+
+        _planeObject.transform.position -= Vector3.right * .5f;
+
+        _planeObject.transform.up = new Vector3(-1, 0, 1);
+        CutMesh();
+
+        _planeObject.transform.right = new Vector3(r, r1, r2);
+        CutMesh();
+
+        _planeObject.transform.position = Vector3.zero;
+
+        r = _random.Next(Int32.MinValue >> 30, Int32.MaxValue);
+        r1 = _random.Next(Int32.MinValue >> 17, Int32.MaxValue);
+        r2 = _random.Next(Int32.MinValue >> 12, Int32.MaxValue);
+
+        _planeObject.transform.up = new Vector3(r, r1, r2);
+        CutMesh();
+
+        r = _random.Next(Int32.MinValue >> 10, Int32.MaxValue);
+        r1 = _random.Next(Int32.MinValue >> 15, Int32.MaxValue);
+        r2 = _random.Next(Int32.MinValue >> 25, Int32.MaxValue);
+
+        _planeObject.transform.up = new Vector3(r + r2, r1, 1);
+        CutMesh();
+        
+        _planeObject.transform.up = new Vector3(0, -1, 1);
+        CutMesh();
+        _planeObject.transform.up = new Vector3(_random.Next(-1, 1), -1, 1);
+        CutMesh();
+        _planeObject.transform.up = new Vector3(-.5f, 0, 1);
+        CutMesh();
+    }
+
+    private void Frag_1()
+    {
+        var r = _random.Next(0, 256);
+        var r1 = _random.Next(0, 256);
+        var r2 = _random.Next(0, 256);
+
+        _planeObject.transform.up = Vector3.up;
+        CutMesh();
+
+        _planeObject.transform.up = Vector3.right;
+        CutMesh();
+
+        _planeObject.transform.position += Vector3.down * .5f;
+
+        var v = (Vector3.right - Vector3.up).normalized;
+        _planeObject.transform.up = v;
+        CutMesh();
+
+        v = (Vector3.right + Vector3.up).normalized;
+        _planeObject.transform.up = v;
+        CutMesh();
+
+        _planeObject.transform.position -= Vector3.right * .5f;
+
+        _planeObject.transform.up = new Vector3(-1, r, 1);
+        CutMesh();
+
+        _planeObject.transform.right = new Vector3(r, r1, r2);
+        CutMesh();
+
+        _planeObject.transform.position = Vector3.zero;
+
+        r = _random.Next(Int32.MinValue >> 30, Int32.MaxValue);
+        r1 = _random.Next(Int32.MinValue >> 17, Int32.MaxValue);
+        r2 = _random.Next(Int32.MinValue >> 12, Int32.MaxValue);
+
+        _planeObject.transform.up = new Vector3(r, r1, r2);
+        CutMesh();
+
+        r = _random.Next(Int32.MinValue >> 10, Int32.MaxValue);
+        r1 = _random.Next(Int32.MinValue >> 15, Int32.MaxValue);
+        r2 = _random.Next(Int32.MinValue >> 25, Int32.MaxValue);
+
+        _planeObject.transform.up = new Vector3(r, r1, 1);
+        CutMesh();
+
+        r = _random.Next(Int32.MinValue >> 10, Int32.MaxValue);
+        r1 = _random.Next(Int32.MinValue >> 15, Int32.MaxValue);
+        r2 = _random.Next(Int32.MinValue >> 25, Int32.MaxValue);
+
+        _planeObject.transform.up = new Vector3(r, r1, 1);
+        _planeObject.transform.right = new Vector3(r, r1, r2);
+        CutMesh();
+
+        _planeObject.transform.up = new Vector3(0, 0, 1);
+        CutMesh();
+        _planeObject.transform.up = new Vector3(0, -1, 1);
+        CutMesh();
+    }
+
+    #endregion
 
     public void SaveCuttedMeshes() // 保存先のパスにメッシュのアセットとプレハブを保存する
     {
@@ -58,7 +180,7 @@ public class ArmStrongUser : MonoBehaviour
         ArmStrong.FindSaveTargetDirectory(ArmStrong.CuttedMeshesPrefabFolderAbsolutePath);
 
         _cuttedMeshes[0].name = _objectName;
-        
+
         // コンポーネントのアタッチ
         if (_fragmentationMode == FragmentationMode.WithPhysics)
         {
@@ -76,7 +198,7 @@ public class ArmStrongUser : MonoBehaviour
         {
             _cuttedMeshes[i].transform.parent = _cuttedMeshes[0].transform;
         }
-        
+
         // 保存処理
         for (int i = 0; i < _cuttedMeshes.Count; ++i)
         {
@@ -88,11 +210,6 @@ public class ArmStrongUser : MonoBehaviour
 
         PrefabUtility.SaveAsPrefabAsset(_cuttedMeshes[0],
             ArmStrong.CuttedMeshesPrefabFolderAbsolutePath + $"{_objectName}.prefab");
-    }
-
-    public void RunFragmentation()
-    {
-        Debug.Log("まだ実装してない");
     }
 
     private void Start()
@@ -123,6 +240,16 @@ public class ArmStrongUser : MonoBehaviour
         else if (inputVer < 0) // 上
         {
             _planeObject.transform.Rotate(Vector3.right, -Time.deltaTime * _rotateSpeed);
+        }
+
+        if (Input.GetKey(KeyCode.Q))
+        {
+            _planeObject.transform.position -= Vector3.up * Time.deltaTime;
+        }
+
+        if (Input.GetKey(KeyCode.E))
+        {
+            _planeObject.transform.position += Vector3.up * Time.deltaTime;
         }
     }
 }
