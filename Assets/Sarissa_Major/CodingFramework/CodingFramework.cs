@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using System;
 
-namespace Sarissa
+namespace Sarissa.CodingFramework
 {
     public class CodingFramework : MonoBehaviour
     {
