@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using Sarissa;
+using Sarissa.CodingFramework;
 using Unity.VisualScripting;
 using UnityEngine;
 

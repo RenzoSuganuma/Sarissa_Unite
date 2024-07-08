@@ -121,18 +121,29 @@ namespace Sarissa.UI
         [SerializeField, Header("Player Tag")] string _playerTag;
         [SerializeField, Header("Camera Tag")] string _cameraTag;
 
-         [SerializeField, Header("Objective Tag")]
-        string _objTag;
-
+        RectTransform _rect;
         Transform _target;
+        Camera _mainCam;
 
         public Transform Target
         {
             get { return _target; }
+            set
+            {
+                _target = value;
+                _imageIcon.color = (_target == null) ? Color.clear : Color.white;
+
+                if (GameObject.FindGameObjectWithTag(_cameraTag).GetComponent<Camera>() != null)
+                {
+                    _mainCam = GameObject.FindGameObjectWithTag(_cameraTag).GetComponent<Camera>();
+                }
+                else
+                {
+                    _mainCam = GameObject.FindGameObjectWithTag(_cameraTag).GetComponentInChildren<Camera>();
+                }   
+            }
         }
 
-        Camera _mainCam;
-        RectTransform _rect;
 
         public void SetTarget(Transform target)
         {
@@ -166,12 +177,6 @@ namespace Sarissa.UI
 
         private void Update()
         {
-            if (GameObject.FindAnyObjectByType<GameInfo>().GetTransitStatus !=
-                GameInfo.SceneTransitStatus.WentToInGameScene)
-            {
-                return;
-            }
-
             _rect = _imageIcon.gameObject.GetComponent<RectTransform>();
 
             float canvasScale = transform.root.localScale.z;

@@ -1,14 +1,14 @@
 ﻿// 管理者 菅沼
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
 
-namespace Sarissa
+namespace Sarissa.CodingFramework
 {
     /// <summary> 拡張メソッドを提供するクラス </summary>
-    public static class MethodsExtension
+    public static class SarissaMethodsExtension
     {
         /* GameObjects */
         /// <summary>指定されたトランスフォームの子オブジェクトにする</summary>
