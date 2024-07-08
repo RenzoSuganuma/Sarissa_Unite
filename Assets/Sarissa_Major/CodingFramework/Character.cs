@@ -15,6 +15,4 @@ public class Character : CodingFramework
     {
         _healthPoint = value;
     }
-    
-    
 }
