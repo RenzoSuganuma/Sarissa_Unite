@@ -1,13 +1,13 @@
 // 作成者 菅沼
 
 using System.Collections.Generic;
-using System;
 using System.Linq;
+using System;
 
 namespace Sarissa.BehaviourTree
 {
     /// <summary> BTのビヘイビアのベースクラス </summary>
-    public class Behaviour
+    public class BTBehaviour
     {
         private List<Action> _behaviours;
         private int _behaviourIndex;
@@ -60,13 +60,13 @@ namespace Sarissa.BehaviourTree
             _yieldBehaviourManually = yieldManually;
         }
 
-        public Behaviour()
+        public BTBehaviour()
         {
             _behaviours = new();
             _behaviourIndex = 0;
         }
 
-        public Behaviour(params Action[] behaviour)
+        public BTBehaviour(params Action[] behaviour)
         {
             _behaviours = new();
             _behaviourIndex = 0;
@@ -76,7 +76,11 @@ namespace Sarissa.BehaviourTree
 
         public void Begin()
         {
-            OnBegin?.Invoke();
+            if (OnBegin is not null)
+            {
+                OnBegin.Invoke();
+            }
+
             if (_behaviours.Count == 0)
             {
                 throw new Exception("No State Added On This Behaviour");
@@ -85,7 +89,11 @@ namespace Sarissa.BehaviourTree
 
         public void Tick()
         {
-            OnTick?.Invoke();
+            if (OnTick is not null)
+            {
+                OnTick.Invoke();
+            }
+
             if (_behaviourIndex + 1 < _behaviours.Count)
             {
                 _behaviourIndex++;
@@ -100,21 +108,24 @@ namespace Sarissa.BehaviourTree
 
         public void End()
         {
-            OnEnd?.Invoke();
+            if (OnEnd is not null)
+            {
+                OnEnd.Invoke();
+            }
         }
     }
 
     /// <summary> 遷移の情報を格納している </summary>
-    public class Transition
+    public class BTTransition
     {
-        private Behaviour _from;
-        public Behaviour From => _from;
-        private Behaviour _to;
-        public Behaviour To => _to;
+        private BTBehaviour _from;
+        private BTBehaviour _to;
         private int _id;
+        public BTBehaviour From => _from;
+        public BTBehaviour To => _to;
         public int Id => _id;
 
-        public Transition(Behaviour from, Behaviour to, int id)
+        public BTTransition(BTBehaviour from, BTBehaviour to, int id)
         {
             _from = from;
             _to = to;
@@ -125,20 +136,20 @@ namespace Sarissa.BehaviourTree
     /// <summary> ビヘイビアツリーの機能を提供 </summary>
     public class BehaviourTree
     {
-        private HashSet<Behaviour> _behaviours = new();
-        private HashSet<Transition> _transitions = new();
-        private Behaviour _currentBehaviour, _yieldedBehaviourNow;
+        private HashSet<BTBehaviour> _behaviours = new();
+        private HashSet<BTTransition> _transitions = new();
+        private BTBehaviour _currentBtBehaviour, _yieldedBtBehaviourNow;
         private bool _isPausing;
         private bool _isYieldToEvent;
 
         public int CurrentBehaviourID
         {
-            get { return _behaviours.ToList().IndexOf(_currentBehaviour); }
+            get { return _behaviours.ToList().IndexOf(_currentBtBehaviour); }
         }
 
         public int CurrentYieldedBehaviourID
         {
-            get { return _behaviours.ToList().IndexOf(_yieldedBehaviourNow); }
+            get { return _behaviours.ToList().IndexOf(_yieldedBtBehaviourNow); }
         }
 
         public bool IsPaused
@@ -146,25 +157,25 @@ namespace Sarissa.BehaviourTree
             get { return _isPausing; }
         }
 
-        public Behaviour CurrentBehaviour
+        public BTBehaviour CurrentBtBehaviour
         {
-            get { return _currentBehaviour; }
+            get { return _currentBtBehaviour; }
         }
 
-        public Behaviour CurrentYieldedEvent
+        public BTBehaviour CurrentYieldedBtEvent
         {
-            get { return _yieldedBehaviourNow; }
+            get { return _yieldedBtBehaviourNow; }
         }
 
-        public void ResistBehaviours(params Behaviour[] btBehaviours)
+        public void ResistBehaviours(params BTBehaviour[] btBehaviours)
         {
             _behaviours = btBehaviours.ToHashSet();
-            if (_currentBehaviour == null) _currentBehaviour = btBehaviours[0];
+            if (_currentBtBehaviour == null) _currentBtBehaviour = btBehaviours[0];
         }
 
-        public void MakeTransition(Behaviour from, Behaviour to, int id)
+        public void MakeTransition(BTBehaviour from, BTBehaviour to, int id)
         {
-            _transitions.Add(new Transition(from, to, id));
+            _transitions.Add(new BTTransition(from, to, id));
         }
 
         public void UpdateTransition(int id, ref bool condition, bool equalsTo = true, bool isTrigger = false)
@@ -177,18 +188,18 @@ namespace Sarissa.BehaviourTree
             {
                 if ((condition == equalsTo) && transition.Id == id)
                 {
-                    if (transition.From == _currentBehaviour)
+                    if (transition.From == _currentBtBehaviour)
                     {
                         // このビヘイビアの先のビヘイビアへ遷移していないことが担保されてから遷移処理をするべき
-                        _currentBehaviour.End();
+                        _currentBtBehaviour.End();
                         if (isTrigger) condition = !equalsTo;
-                        _currentBehaviour = transition.To;
-                        _currentBehaviour.Begin();
+                        _currentBtBehaviour = transition.To;
+                        _currentBtBehaviour.Begin();
                     }
                 }
                 else
                 {
-                    _currentBehaviour.Tick();
+                    _currentBtBehaviour.Tick();
                 }
             }
         }
@@ -197,38 +208,38 @@ namespace Sarissa.BehaviourTree
         {
             if (_isYieldToEvent)
             {
-                _yieldedBehaviourNow.Tick();
-                if (!_yieldedBehaviourNow.YieldManually)
+                _yieldedBtBehaviourNow.Tick();
+                if (!_yieldedBtBehaviourNow.YieldManually)
                 {
                     _isYieldToEvent = false;
                 }
             }
         }
 
-        public void JumpTo(Behaviour behaviour)
+        public void JumpTo(BTBehaviour btBehaviour)
         {
-            if (_behaviours.Contains(behaviour))
+            if (_behaviours.Contains(btBehaviour))
             {
-                _currentBehaviour = behaviour;
+                _currentBtBehaviour = btBehaviour;
             }
         }
 
-        public void YieldAllBehaviourTo(Behaviour behaviour)
+        public void YieldAllBehaviourTo(BTBehaviour btBehaviour)
         {
-            if (_behaviours.Contains(behaviour))
+            if (_behaviours.Contains(btBehaviour))
             {
                 _isYieldToEvent = true;
-                _yieldedBehaviourNow = behaviour;
-                _yieldedBehaviourNow.Begin();
+                _yieldedBtBehaviourNow = btBehaviour;
+                _yieldedBtBehaviourNow.Begin();
             }
         }
 
-        public void EndYieldBehaviourFrom(Behaviour behaviour)
+        public void EndYieldBehaviourFrom(BTBehaviour btBehaviour)
         {
-            if (_behaviours.Contains(behaviour))
+            if (_behaviours.Contains(btBehaviour))
             {
                 _isYieldToEvent = false;
-                _yieldedBehaviourNow.End();
+                _yieldedBtBehaviourNow.End();
             }
         }
 
@@ -240,7 +251,7 @@ namespace Sarissa.BehaviourTree
         public void Start()
         {
             _isPausing = false;
-            _currentBehaviour.Begin();
+            _currentBtBehaviour.Begin();
         }
     }
 }

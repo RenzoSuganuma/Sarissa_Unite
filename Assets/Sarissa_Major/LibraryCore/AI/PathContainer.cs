@@ -1,5 +1,7 @@
 ﻿// 管理者 菅沼
+
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -17,15 +19,26 @@ namespace Sarissa
         float _markerSize = 1.0f;
 
         /// <summary> AIのパトロールする道筋の各分岐点のトランスフォームを返す </summary>
-        public Vector3[] Path
+        public List<Vector3> Path
         {
             get
             {
                 var temp = Array.ConvertAll(transform.GetComponentsInChildren<Transform>(), x => x.position)
                     .ToList();
                 temp.RemoveAt(0);
-                return temp.ToArray();
+                return temp;
             }
+        }
+
+        /// <summary>
+        /// パスの頂点を追加する
+        /// </summary>
+        /// <param name="point"></param>
+        public void AddPoint(Vector3 point)
+        {
+            var obj = new GameObject();
+            obj.transform.parent = transform;
+            obj.transform.position = point;
         }
 
         private void OnDrawGizmos()

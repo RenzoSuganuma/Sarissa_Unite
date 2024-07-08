@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Sarissa.BehaviourTree;
 using UnityEngine;
-using Behaviour = Sarissa.BehaviourTree.Behaviour;
 
 public class BTSampleAI : MonoBehaviour
 {
     private BehaviourTree _BT = new BehaviourTree();
-    private Behaviour _behaviourA;
-    private Behaviour _behaviourB;
+    private BTBehaviour _btBehaviourA;
+    private BTBehaviour _btBehaviourB;
     private Action _stateA1, _stateA2, _stateA3;
     private Action _stateB1, _stateB2, _stateB3;
     [SerializeField] private bool cond;
@@ -32,12 +31,12 @@ public class BTSampleAI : MonoBehaviour
 
         #endregion
 
-        _behaviourA = new(new Action[] { _stateA1, _stateA2, _stateA3 });
-        _behaviourB = new(new Action[] { _stateB1, _stateB2, _stateB3 });
+        _btBehaviourA = new(new Action[] { _stateA1, _stateA2, _stateA3 });
+        _btBehaviourB = new(new Action[] { _stateB1, _stateB2, _stateB3 });
 
-        _BT.ResistBehaviours(new[] { _behaviourA, _behaviourB });
-        _BT.MakeTransition(_behaviourA, _behaviourB, 1);
-        _BT.MakeTransition(_behaviourB, _behaviourA, 2);
+        _BT.ResistBehaviours(new[] { _btBehaviourA, _btBehaviourB });
+        _BT.MakeTransition(_btBehaviourA, _btBehaviourB, 1);
+        _BT.MakeTransition(_btBehaviourB, _btBehaviourA, 2);
         _BT.Start();
     }
 

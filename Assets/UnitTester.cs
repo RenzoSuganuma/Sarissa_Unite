@@ -4,9 +4,13 @@ using UnityEngine;
 using Sarissa;
 using System;
 
-public class UnitTester : CodingFramework
+public class UnitTester : Character
 {
     private void Start()
+    {
+    }
+
+    protected override void BehaviourWhenDeath()
     {
     }
 }

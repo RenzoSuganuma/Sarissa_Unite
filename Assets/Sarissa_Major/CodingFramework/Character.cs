@@ -1,6 +1,6 @@
-using System;
-using Sarissa;
 using UnityEngine;
+using Sarissa;
+using System;
 
 namespace Sarissa.CodingFramework
 {
@@ -15,6 +15,11 @@ namespace Sarissa.CodingFramework
         public void AddDamage(Single damage)
         {
             _healthPoint -= damage;
+
+            if (_healthPoint <= 0)
+            {
+                BehaviourWhenDeath();
+            }
         }
 
         /// <summary>
@@ -23,6 +28,7 @@ namespace Sarissa.CodingFramework
         public void Kill()
         {
             _healthPoint = 0;
+            BehaviourWhenDeath();
         }
 
         /// <summary>
