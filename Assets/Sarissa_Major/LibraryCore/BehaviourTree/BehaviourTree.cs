@@ -206,6 +206,11 @@ namespace Sarissa.BehaviourTree
 
         public void UpdateEventsYield()
         {
+            if (_isPausing)
+            {
+                return;
+            }
+            
             if (_isYieldToEvent)
             {
                 _yieldedBtBehaviourNow.Tick();
