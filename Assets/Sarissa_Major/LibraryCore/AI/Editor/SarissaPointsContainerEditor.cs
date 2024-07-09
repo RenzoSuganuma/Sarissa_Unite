@@ -3,14 +3,14 @@ using UnityEditor;
 using UnityEngine;
 using Sarissa;
 
-public class PathContainerEditorEx : MonoBehaviour
+public class SarissaPointsContainerEditor : MonoBehaviour
 {
     [MenuItem("GameObject/Sarissa/Path", false, 10)]
     static void CreateGameObject(MenuCommand menuCommand)
     {
         // Create a custom game object
         GameObject root = new();
-        root.AddComponent<PathContainer>();
+        root.AddComponent<SarissaPointsContainer>();
         root.name = "AI_PatrolPath_Root";
         // Ensure it gets reparented if this was a context click (otherwise does nothing)
         GameObjectUtility.SetParentAndAlign(root, menuCommand.context as GameObject);

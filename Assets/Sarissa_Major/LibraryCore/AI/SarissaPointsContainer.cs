@@ -1,14 +1,14 @@
 ﻿// 管理者 菅沼
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
 
 namespace Sarissa
 {
     /// <summary> 道筋の座標情報を格納している </summary>
-    public class PathContainer : MonoBehaviour
+    public class SarissaPointsContainer : MonoBehaviour
     {
         [SerializeField, Header("Path Color")] Color _color = Color.yellow;
 
