@@ -7,14 +7,16 @@ using Sarissa.BehaviourTree;
 
 public class UnitTester : Character
 {
+    [SerializeReference] private SarissaBTNode _node;
+    
     private SarissaBT _bt;
+    private SampleNode1 node1 = new();
+    private SampleNode2 node2 = new();
 
     private void OnEnable()
     {
         _bt = new();
-        SampleNode1 node1 = new();
-        SampleNode2 node2 = new();
-        
+
         _bt.ResistNode(ref node1);
         _bt.ResistNode(ref node2);
         _bt.ApplyTransition(node1, node2);
@@ -40,6 +42,12 @@ public class UnitTester : Character
         if (GUILayout.Button("End"))
         {
             _bt.EndBT();
+        }
+
+        if (GUILayout.Button("Goto Node1"))
+        {
+            _bt.SetCurrentNodeAs((node1 as SarissaBTNode).Id);
+            _bt.UpdateTransition(0, false);
         }
     }
 

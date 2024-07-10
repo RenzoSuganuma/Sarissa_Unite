@@ -2,14 +2,15 @@
 
 namespace Sarissa.BehaviourTree
 {
+    [Serializable]
     public abstract class SarissaBTNode
     {
-        protected SarissaBTNode _next;
+        protected SarissaBTNode _next;  // 次のノードがない場合にはNULLが格納される
         protected Int32 _id;
 
         public event Action<SarissaBTNode> OnNextNodeChanged;
 
-        public SarissaBTNode Next
+        public SarissaBTNode Next   // 次のノードがない場合にはNULLが格納される
         {
             get { return _next; }
 
@@ -35,12 +36,6 @@ namespace Sarissa.BehaviourTree
             {
                 _id = value;
             }
-        }
-
-        public void SetupNode(int id, SarissaBTNode next)
-        {
-            _id = id;
-            _next = next;
         }
 
         public abstract void StartNode();

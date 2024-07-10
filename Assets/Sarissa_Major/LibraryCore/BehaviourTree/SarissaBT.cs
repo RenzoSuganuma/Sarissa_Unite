@@ -55,6 +55,21 @@ namespace Sarissa.BehaviourTree
             _transitions[nodeId] = condition;
         }
 
+        public void SetCurrentNodeAs(Int32 id)
+        {
+            _currentNodeId = id;
+        }
+        
+        public void SetCurrentNodeAs<T>(T node1)
+        {
+            if (node1 as SarissaBTNode == null)
+            {
+                throw new UpCastFailedException($"{nameof(node1)} failed cast to {nameof(SarissaBTNode)}");
+            }
+
+            _currentNodeId = (node1 as SarissaBTNode).Id;
+        }
+
         public void StartBT()
         {
             _isRunning = true;
