@@ -24,7 +24,18 @@ namespace Sarissa.BehaviourTree
             }
         }
 
-        public int Id => _id;
+        public int Id
+        {
+            get
+            {
+                return _id;
+            }
+
+            set
+            {
+                _id = value;
+            }
+        }
 
         public void SetupNode(int id, SarissaBTNode next)
         {
