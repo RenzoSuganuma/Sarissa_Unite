@@ -1,14 +1,12 @@
 using Sarissa.CodingFramework;
+using Sarissa.BehaviourTree;
 using System.Collections;
 using UnityEngine;
 using Sarissa;
 using System;
-using Sarissa.BehaviourTree;
 
 public class UnitTester : Character
 {
-    [SerializeReference] private SarissaBTNode _node;
-    
     private SarissaBT _bt;
     private SampleNode1 node1 = new();
     private SampleNode2 node2 = new();
