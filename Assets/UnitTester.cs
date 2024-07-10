@@ -36,6 +36,11 @@ public class UnitTester : Character
         {
             _bt.UpdateTransition(0, true);
         }
+
+        if (GUILayout.Button("End"))
+        {
+            _bt.EndBT();
+        }
     }
 
     protected override void BehaviourWhenDeath()

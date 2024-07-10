@@ -18,6 +18,9 @@ namespace Sarissa.BehaviourTree
         // idでカレントノードを取得
         private Int32 _currentNodeId;
 
+        // 一時停止していないときにはtrue
+        private Boolean _isRunning;
+
         public void ResistNode<T>(ref T node)
         {
             Int32 id = _nodes.Count;
@@ -54,12 +57,16 @@ namespace Sarissa.BehaviourTree
 
         public void StartBT()
         {
+            _isRunning = true;
+
             _currentNodeId = 0;
             _nodes[_currentNodeId].StartNode();
         }
 
         public void UpdateBT()
         {
+            if (!_isRunning) return;
+
             _nodes[_currentNodeId].UpdateNode();
 
             foreach (var nodesKey in _nodes.Keys) // for each id
@@ -82,6 +89,8 @@ namespace Sarissa.BehaviourTree
 
         public void EndBT()
         {
+            _isRunning = false;
+
             _nodes[_currentNodeId].EndNode();
         }
     }
