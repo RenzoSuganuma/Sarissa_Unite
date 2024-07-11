@@ -1,8 +1,5 @@
-﻿using System.Linq;
+﻿using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 #region 3DTransform To 2DScreenPosition
 

@@ -5,20 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e316c7a9-4043-470d-acfe-1a2c542b8015" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/SarissaBTBehaviour.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/SarissaBTBehaviour.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/SarissaBTTransition.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/SarissaBTTransition.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/Samples/SampleNode1.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/Samples/SampleNode1.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/Samples/SampleNode2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/Samples/SampleNode2.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/SarissaBT.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/SarissaMinimalSM.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/SarissaBT.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/SarissaMinimalSM.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/SarissaBTNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/SarissaBTNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/UpCastFailedException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/UpCastFailedException.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/StateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaEnhancedSM.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/StateMachine.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaEnhancedSM.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UnitTester.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UnitTester.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/InputDevice/Script/RumbleInfo.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/InputDevice/Script/RumbleInfo.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/InputDevice/Script/GamepadRamblePreset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/InputDevice/Script/GamepadRamblePreset.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/InputDevice/Script/GamepadRumbler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/InputDevice/Script/GamepadRumbler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/SettingsManager/DisplaySettingDataContainer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/SettingsManager/DisplaySettingDataContainer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/SettingsManager/DisplaySettingsManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/SettingsManager/DisplaySettingsManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaEnhancedSM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaEnhancedSM.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/UI/ClicableObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/UI/ClicableObject.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/UI/ObjectiveIconDisplayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/UI/ObjectiveIconDisplayer.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +104,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720692182513</updated>
-      <workItem from="1720692186723" duration="1564000" />
+      <workItem from="1720692186723" duration="2333000" />
     </task>
     <servers />
   </component>

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine;
+using System.Linq;
+using System;
 
 // 担当 菅沼
 // ディスプレイのデバイス名とリフレッシュレートの変更はできたっぽい ← ここまでは動作確認できている
