@@ -2,111 +2,137 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using System;
 
-namespace Sarissa.BehaviourTree
+namespace SgLibUnite.BehaviourTree
 {
     /// <summary> ビヘイビアツリーの機能を提供 </summary>
     public class SarissaBT
     {
-        // id <-> node
-        private Dictionary<Int32, SarissaBTNode> _nodes = new();
+        private HashSet<SarissaBTBehaviour> _btBehaviours = new();
+        private HashSet<SarissaBTTransition> _btTransitions = new();
+        private SarissaBTBehaviour _currentBehaviour, _yieldedBehaviourNow;
+        private bool _isPausing;
+        private bool _isYieldToEvent;
 
-        // id <-> condition
-        private Dictionary<Int32, Boolean> _transitions = new();
-
-        // idでカレントノードを取得
-        private Int32 _currentNodeId;
-
-        // 一時停止していないときにはtrue
-        private Boolean _isRunning;
-
-        public void ResistNode<T>(ref T node)
+        public int CurrentBehaviourID
         {
-            Int32 id = _nodes.Count;
-            if (node as SarissaBTNode == null)
+            get { return _btBehaviours.ToList().IndexOf(_currentBehaviour); }
+        }
+
+        public int CurrentYieldedBehaviourID
+        {
+            get { return _btBehaviours.ToList().IndexOf(_yieldedBehaviourNow); }
+        }
+
+        public bool IsPaused
+        {
+            get { return _isPausing; }
+        }
+
+        public SarissaBTBehaviour CurrentBehaviour
+        {
+            get { return _currentBehaviour; }
+        }
+
+        public SarissaBTBehaviour CurrentYieldedEvent
+        {
+            get { return _yieldedBehaviourNow; }
+        }
+
+        public void ResistBehaviours(params SarissaBTBehaviour[] btBehaviours)
+        {
+            _btBehaviours = btBehaviours.ToHashSet();
+            if (_currentBehaviour == null) _currentBehaviour = btBehaviours[0];
+        }
+
+        public void MakeTransition(SarissaBTBehaviour from, SarissaBTBehaviour to, string name)
+        {
+            _btTransitions.Add(new SarissaBTTransition(from, to, name));
+        }
+
+        public void UpdateTransition(string name, ref bool condition, bool equalsTo = true, bool isTrigger = false)
+        {
+            if (_isPausing)
             {
-                throw new UpCastFailedException($"{nameof(node)} failed cast to {nameof(SarissaBTNode)}");
+                return;
             }
 
-            (node as SarissaBTNode).Id = id;
-            _nodes.Add(id, node as SarissaBTNode);
-        }
+            if (_isYieldToEvent) return;
 
-        public void ApplyTransition<T1, T2>(T1 node1, T2 node2)
-        {
-            if (node1 as SarissaBTNode == null)
+            foreach (var transition in _btTransitions)
             {
-                throw new UpCastFailedException($"{nameof(node1)} failed cast to {nameof(SarissaBTNode)}");
-            }
-
-            if (node2 as SarissaBTNode == null)
-            {
-                throw new UpCastFailedException($"{nameof(node2)} failed cast to {nameof(SarissaBTNode)}");
-            }
-
-            (node1 as SarissaBTNode).Next = (node2 as SarissaBTNode);
-            (node2 as SarissaBTNode).Next = null; // node1 の 次をあくまでもここでは指定しているのでnode2の次のノードの値はNULLに初期化しておく
-            _transitions.Add((node1 as SarissaBTNode).Id, false);
-        }
-
-        public void UpdateTransition(Int32 nodeId, Boolean condition)
-        {
-            _transitions[nodeId] = condition;
-        }
-
-        public void SetCurrentNodeAs(Int32 id)
-        {
-            _currentNodeId = id;
-        }
-        
-        public void SetCurrentNodeAs<T>(T node1)
-        {
-            if (node1 as SarissaBTNode == null)
-            {
-                throw new UpCastFailedException($"{nameof(node1)} failed cast to {nameof(SarissaBTNode)}");
-            }
-
-            _currentNodeId = (node1 as SarissaBTNode).Id;
-        }
-
-        public void StartBT()
-        {
-            _isRunning = true;
-
-            _currentNodeId = 0;
-            _nodes[_currentNodeId].StartNode();
-        }
-
-        public void UpdateBT()
-        {
-            if (!_isRunning) return;
-
-            _nodes[_currentNodeId].UpdateNode();
-
-            foreach (var nodesKey in _nodes.Keys) // for each id
-            {
-                // 一番端っこのノードでない 【次のいくステートがある】、 トランジション可能 
-                if ( /* 1 */_transitions.ContainsKey(nodesKey) && _transitions[nodesKey] /* 1 */
-                                                               && /* 2 */_nodes[nodesKey].Next is not null &&
-                                                               _nodes[_currentNodeId].Next is not null /* 2 */
-                                                               && /* 3 */_nodes[_currentNodeId].Next.Id ==
-                                                               _nodes[nodesKey].Next.Id) /* 3 */
+                if ((condition == equalsTo) && transition.Name == name)
                 {
-                    _nodes[_currentNodeId].EndNode();
-
-                    _currentNodeId = _nodes[_currentNodeId].Next.Id;
-
-                    _nodes[_currentNodeId].StartNode();
+                    if (transition.From == _currentBehaviour)
+                    {
+                        // このビヘイビアの先のビヘイビアへ遷移していないことが担保されてから遷移処理をするべき
+                        _currentBehaviour.End();
+                        if (isTrigger) condition = !equalsTo;
+                        _currentBehaviour = transition.To;
+                        _currentBehaviour.Begin();
+                    }
+                }
+                else
+                {
+                    _currentBehaviour.Tick();
                 }
             }
         }
 
-        public void EndBT()
+        public void UpdateEventsYield()
         {
-            _isRunning = false;
+            if (_isPausing)
+            {
+                return;
+            }
+            else if (_isYieldToEvent)
+            {
+                _yieldedBehaviourNow.Tick();
+                if (!_yieldedBehaviourNow.YieldManually)
+                {
+                    _isYieldToEvent = false;
+                }
+            }
+        }
 
-            _nodes[_currentNodeId].EndNode();
+        public void JumpTo(SarissaBTBehaviour behaviour)
+        {
+            if (_btBehaviours.Contains(behaviour))
+            {
+                _currentBehaviour = behaviour;
+            }
+        }
+
+        public void YieldAllBehaviourTo(SarissaBTBehaviour behaviour)
+        {
+            if (_btBehaviours.Contains(behaviour))
+            {
+                _isYieldToEvent = true;
+                _yieldedBehaviourNow = behaviour;
+                _yieldedBehaviourNow.Begin();
+            }
+        }
+
+        public void EndYieldBehaviourFrom(SarissaBTBehaviour behaviour)
+        {
+            if (_btBehaviours.Contains(behaviour))
+            {
+                _isYieldToEvent = false;
+                _yieldedBehaviourNow.End();
+            }
+        }
+
+        public void PauseBT()
+        {
+            _isPausing = true;
+        }
+
+        public void StartBT()
+        {
+            _isPausing = false;
+            _currentBehaviour.Begin();
         }
     }
 }

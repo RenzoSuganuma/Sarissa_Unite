@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Sarissa.BehaviourTree
+namespace StateMachine
 {
     public class UpCastFailedException : Exception
     {

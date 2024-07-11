@@ -1,5 +1,5 @@
 using Sarissa.CodingFramework;
-using Sarissa.BehaviourTree;
+using StateMachine;
 using System.Collections;
 using UnityEngine;
 using Sarissa;
@@ -7,45 +7,49 @@ using System;
 
 public class UnitTester : Character
 {
-    private SarissaBT _bt;
+    [SerializeReference, SubclassSelector] private SarissaBTNode _node;
+    
+    private SarissaMinimalSM _minimalSm;
     private SampleNode1 node1 = new();
     private SampleNode2 node2 = new();
 
     private void OnEnable()
     {
-        _bt = new();
+        _minimalSm = new();
 
-        _bt.ResistNode(ref node1);
-        _bt.ResistNode(ref node2);
-        _bt.ApplyTransition(node1, node2);
+        _minimalSm.ResistNode(ref node1);
+        _minimalSm.ResistNode(ref node2);
+        _minimalSm.ApplyTransition(node1, node2);
     }
 
     private void Start()
     {
-        _bt.StartBT();
+        Debug.Log($"{_node}");
+        
+        _minimalSm.StartBT();
     }
 
     private void Update()
     {
-        _bt.UpdateBT();
+        _minimalSm.UpdateBT();
     }
 
     private void OnGUI()
     {
         if (GUILayout.Button("Goto Next"))
         {
-            _bt.UpdateTransition(0, true);
+            _minimalSm.UpdateTransition(0, true);
         }
 
         if (GUILayout.Button("End"))
         {
-            _bt.EndBT();
+            _minimalSm.EndBT();
         }
 
         if (GUILayout.Button("Goto Node1"))
         {
-            _bt.SetCurrentNodeAs((node1 as SarissaBTNode).Id);
-            _bt.UpdateTransition(0, false);
+            _minimalSm.SetCurrentNodeAs((node1 as SarissaBTNode).Id);
+            _minimalSm.UpdateTransition(0, false);
         }
     }
 

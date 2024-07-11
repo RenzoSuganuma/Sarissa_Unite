@@ -470,6 +470,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebfe8d2c506eb7c479b0eb6edb1e7153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _node:
+    rid: 6152507787375542340
+  references:
+    version: 2
+    RefIds:
+    - rid: 6152507787375542340
+      type: {class: SampleNode1, ns: , asm: Assembly-CSharp}
+      data: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

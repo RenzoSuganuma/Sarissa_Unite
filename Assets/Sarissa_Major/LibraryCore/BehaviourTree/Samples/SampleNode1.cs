@@ -1,4 +1,4 @@
-using Sarissa.BehaviourTree;
+using StateMachine;
 using UnityEngine;
 
 public class SampleNode1 : SarissaBTNode
