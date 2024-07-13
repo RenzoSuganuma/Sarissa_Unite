@@ -195,50 +195,7 @@ namespace Sarissa.StateMachine
 
         #endregion
     }
-
-    // 各トランジションは名前を割り当てている
-    /// <summary> ステート間遷移の情報を格納している </summary>
-    public class StateMachineTransition
-    {
-        IStateMachineState _from;
-        public IStateMachineState From => _from;
-        IStateMachineState _to;
-        public IStateMachineState To => _to;
-        string _name;
-        public string Name => _name;
-
-        public StateMachineTransition(IStateMachineState from, IStateMachineState to, string name)
-        {
-            _from = from;
-            _to = to;
-            _name = name;
-        }
-    }
-
-    /// <summary> ステートとして登録をするクラスが継承するべきインターフェース </summary>
-    public interface IStateMachineState
-    {
-        public void Entry();
-        public void Update();
-        public void Exit();
-    }
-
-    /// <summary> ダミーのステートのクラス </summary>
-    class DummyStateMachineStateClass : IStateMachineState
-    {
-        public void Entry()
-        {
-        }
-
-        public void Exit()
-        {
-        }
-
-        public void Update()
-        {
-        }
-    }
-
+    
     /// <summary> ステート遷移のタイプ </summary>
     enum StateMachineTransitionType
     {
