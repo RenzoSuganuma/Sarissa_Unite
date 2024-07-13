@@ -6,7 +6,7 @@ using System;
 namespace Sarissa.StateMachine
 {
     /// <summary> ステートマシンの機能を提供する </summary>
-    public class SarissaEnhancedSM
+    public class SarissaSM
     {
         // 通常ステート
         HashSet<IStateMachineState> _states = new HashSet<IStateMachineState>();

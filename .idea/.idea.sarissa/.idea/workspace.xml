@@ -5,15 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e316c7a9-4043-470d-acfe-1a2c542b8015" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/InputDevice/Script/RumbleInfo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/InputDevice/Script/RumbleInfo.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/InputDevice/Script/GamepadRamblePreset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/InputDevice/Script/GamepadRamblePreset.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/InputDevice/Script/GamepadRumbler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/InputDevice/Script/GamepadRumbler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/SettingsManager/DisplaySettingDataContainer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/SettingsManager/DisplaySettingDataContainer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/SettingsManager/DisplaySettingsManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/SettingsManager/DisplaySettingsManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaEnhancedSM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaEnhancedSM.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/UI/ClicableObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/UI/ClicableObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/UI/ObjectiveIconDisplayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/UI/ObjectiveIconDisplayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/Samples/SampleNode1.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/Samples/SampleNode1.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/Samples/SampleNode2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/Samples/SampleNode2.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/General/UpCastFailedException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/General/UpCastFailedException.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaBTNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaSequenceMachineNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaBTNode.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaSequenceMachineNode.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaEnhancedSM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaSM.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaEnhancedSM.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaSM.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaMinimalSM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaSequenceMachine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaMinimalSM.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaSequenceMachine.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnitTester.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UnitTester.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,35 +30,35 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2j60NYw69qoLVbqQ0ozXcMc8sB6" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\sugan\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
-      "C:\\Users\\sugan\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
-      "C:\\Users\\sugan\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\sugan\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\sugan\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\sugan\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\Unity 6000.0.1f1\Editor\Unity.exe" />
@@ -105,6 +106,7 @@
       <option name="presentableId" value="Default" />
       <updated>1720692182513</updated>
       <workItem from="1720692186723" duration="2333000" />
+      <workItem from="1720843302969" duration="251000" />
     </task>
     <servers />
   </component>

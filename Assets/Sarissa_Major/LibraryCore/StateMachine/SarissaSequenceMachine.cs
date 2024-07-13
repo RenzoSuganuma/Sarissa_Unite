@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 
-namespace StateMachine
+namespace Sarissa.SequenceMachine
 {
     /// <summary> ステートマシンの機能を提供 </summary>
-    public class SarissaMinimalSM
+    public class SarissaSequenceMachine
     {
         // id <-> node
-        private Dictionary<Int32, SarissaBTNode> _nodes = new();
+        private Dictionary<Int32, SarissaSequenceMachineNode> _nodes = new();
 
         // id <-> condition
         private Dictionary<Int32, Boolean> _transitions = new();
@@ -24,30 +24,30 @@ namespace StateMachine
         public void ResistNode<T>(ref T node)
         {
             Int32 id = _nodes.Count;
-            if (node as SarissaBTNode == null)
+            if (node as SarissaSequenceMachineNode == null)
             {
-                throw new UpCastFailedException($"{nameof(node)} failed cast to {nameof(SarissaBTNode)}");
+                throw new UpCastFailedException($"{nameof(node)} failed cast to {nameof(SarissaSequenceMachineNode)}");
             }
 
-            (node as SarissaBTNode).Id = id;
-            _nodes.Add(id, node as SarissaBTNode);
+            (node as SarissaSequenceMachineNode).Id = id;
+            _nodes.Add(id, node as SarissaSequenceMachineNode);
         }
 
         public void ApplyTransition<T1, T2>(T1 node1, T2 node2)
         {
-            if (node1 as SarissaBTNode == null)
+            if (node1 as SarissaSequenceMachineNode == null)
             {
-                throw new UpCastFailedException($"{nameof(node1)} failed cast to {nameof(SarissaBTNode)}");
+                throw new UpCastFailedException($"{nameof(node1)} failed cast to {nameof(SarissaSequenceMachineNode)}");
             }
 
-            if (node2 as SarissaBTNode == null)
+            if (node2 as SarissaSequenceMachineNode == null)
             {
-                throw new UpCastFailedException($"{nameof(node2)} failed cast to {nameof(SarissaBTNode)}");
+                throw new UpCastFailedException($"{nameof(node2)} failed cast to {nameof(SarissaSequenceMachineNode)}");
             }
 
-            (node1 as SarissaBTNode).Next = (node2 as SarissaBTNode);
-            (node2 as SarissaBTNode).Next = null; // node1 の 次をあくまでもここでは指定しているのでnode2の次のノードの値はNULLに初期化しておく
-            _transitions.Add((node1 as SarissaBTNode).Id, false);
+            (node1 as SarissaSequenceMachineNode).Next = (node2 as SarissaSequenceMachineNode);
+            (node2 as SarissaSequenceMachineNode).Next = null; // node1 の 次をあくまでもここでは指定しているのでnode2の次のノードの値はNULLに初期化しておく
+            _transitions.Add((node1 as SarissaSequenceMachineNode).Id, false);
         }
 
         public void UpdateTransition(Int32 nodeId, Boolean condition)
@@ -62,12 +62,12 @@ namespace StateMachine
         
         public void SetCurrentNodeAs<T>(T node1)
         {
-            if (node1 as SarissaBTNode == null)
+            if (node1 as SarissaSequenceMachineNode == null)
             {
-                throw new UpCastFailedException($"{nameof(node1)} failed cast to {nameof(SarissaBTNode)}");
+                throw new UpCastFailedException($"{nameof(node1)} failed cast to {nameof(SarissaSequenceMachineNode)}");
             }
 
-            _currentNodeId = (node1 as SarissaBTNode).Id;
+            _currentNodeId = (node1 as SarissaSequenceMachineNode).Id;
         }
 
         public void StartBT()

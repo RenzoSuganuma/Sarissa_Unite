@@ -1,16 +1,16 @@
 ﻿using System;
 
-namespace StateMachine
+namespace Sarissa.SequenceMachine
 {
     [Serializable]
-    public abstract class SarissaBTNode
+    public abstract class SarissaSequenceMachineNode
     {
-        protected SarissaBTNode _next;  // 次のノードがない場合にはNULLが格納される
+        protected SarissaSequenceMachineNode _next;  // 次のノードがない場合にはNULLが格納される
         protected Int32 _id;
 
-        public event Action<SarissaBTNode> OnNextNodeChanged;
+        public event Action<SarissaSequenceMachineNode> OnNextNodeChanged;
 
-        public SarissaBTNode Next   // 次のノードがない場合にはNULLが格納される
+        public SarissaSequenceMachineNode Next   // 次のノードがない場合にはNULLが格納される
         {
             get { return _next; }
 

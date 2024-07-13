@@ -1,7 +1,7 @@
-using StateMachine;
+using Sarissa.SequenceMachine;
 using UnityEngine;
 
-public class SampleNode1 : SarissaBTNode
+public class SampleNode1 : SarissaSequenceMachineNode
 {
     public override void StartNode()
     {
