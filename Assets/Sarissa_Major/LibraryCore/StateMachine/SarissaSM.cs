@@ -24,15 +24,15 @@ namespace Sarissa.StateMachine
         IStateMachineState _currentPlayingStateMachineState;
 
         // 現在突入しているトランジション名
-        string _currentTransitionName;
+        int _currentTransitionId;
 
         // ステートマシンが一時停止中かのフラグ
         bool _isPausing = true;
 
         // デリゲート公開部
-        public event Action<string> OnEntered;
-        public event Action<string> OnUpdated;
-        public event Action<string> OnExited;
+        public event Action<int> OnEntered;
+        public event Action<int> OnUpdated;
+        public event Action<int> OnExited;
 
         #region 登録処理
 
@@ -79,23 +79,23 @@ namespace Sarissa.StateMachine
         }
 
         /// <summary> ステート間の遷移の登録 </summary>
-        public void MakeTransition<T1, T2>(T1 from, T2 to, string name)
+        public void MakeTransition<T1, T2>(T1 from, T2 to, int id)
             where T1 : IStateMachineState
             where T2 : IStateMachineState
         {
             IStateMachineState t1 = from as IStateMachineState;
             IStateMachineState t2 = to as IStateMachineState;
             
-            var tmp = new StateMachineTransition(t1, t2, name);
+            var tmp = new StateMachineTransition(t1, t2, id);
             _transitions.Add(tmp);
         }
 
         /// <summary> Anyステートからの遷移の登録 </summary>
-        public void MakeTransitionFromAny< T >(T to, string name) where T : IStateMachineState
+        public void MakeTransitionFromAny< T >(T to, int id) where T : IStateMachineState
         {
             IStateMachineState t = to as IStateMachineState;
             
-            var tmp = new StateMachineTransition(new DummyStateMachineStateClass(), t, name);
+            var tmp = new StateMachineTransition(new DummyStateMachineStateClass(), t, id);
             _transitionsFromAny.Add(tmp);
         }
 
@@ -104,7 +104,7 @@ namespace Sarissa.StateMachine
         #region 更新処理
 
         /// <summary> 任意のステート間遷移の遷移の状況を更新する。 </summary>
-        public void UpdateTransition(string name, ref bool condition2transist, bool equalsTo = true,
+        public void UpdateTransition(int id, ref bool condition, bool equalsTo = true,
             bool isTrigger = false)
         {
             if (_isPausing) return; // もし一時停止中なら更新処理はしない。
@@ -112,25 +112,25 @@ namespace Sarissa.StateMachine
             {
                 // 遷移する場合 // * 条件を満たしているなら前トランジションを無視してしまうのでその判定処理をはさむこと *
                 // もし遷移条件を満たしていて遷移名が一致するなら
-                if ((condition2transist == equalsTo) && t.Name == name)
+                if ((condition == equalsTo) && t.ID == id)
                 {
                     if (t.From == _currentPlayingStateMachineState) // 現在左ステートなら
                     {
                         _currentPlayingStateMachineState.Exit(); // 右ステートへの遷移条件を満たしたので抜ける
                         if (OnExited != null)
                         {
-                            OnExited(_currentTransitionName);
+                            OnExited(_currentTransitionId);
                         }
 
-                        if (isTrigger) condition2transist = !equalsTo; // IsTrigger が trueなら
+                        if (isTrigger) condition = !equalsTo; // IsTrigger が trueなら
                         _currentPlayingStateMachineState = t.To; // 現在のステートを右ステートに更新、遷移はそのまま
                         _currentPlayingStateMachineState.Entry(); // 現在のステートの初回起動処理を呼ぶ
                         if (OnEntered != null)
                         {
-                            OnEntered(_currentTransitionName);
+                            OnEntered(_currentTransitionId);
                         }
 
-                        _currentTransitionName = name; // 現在の遷移ネームを更新
+                        _currentTransitionId = id; // 現在の遷移ネームを更新
                     }
                 }
                 // 遷移の条件を満たしてはいないが、遷移ネームが一致（更新されていないなら）現在のステートの更新処理を呼ぶ
@@ -139,45 +139,45 @@ namespace Sarissa.StateMachine
                     _currentPlayingStateMachineState.Update();
                     if (OnUpdated != null)
                     {
-                        OnUpdated(_currentTransitionName);
+                        OnUpdated(_currentTransitionId);
                     }
                 }
             } // 全遷移を検索。
         }
 
         /// <summary> ANYステートからの遷移の条件を更新 </summary>
-        public void UpdateTransitionFromAnyState(string name, ref bool condition2transist, bool equalsTo = true,
+        public void UpdateTransitionFromAnyState(int id, ref bool condition, bool equalsTo = true,
             bool isTrigger = false)
         {
             if (_isPausing) return; // もし一時停止中なら更新処理はしない。
             foreach (var t in _transitionsFromAny)
             {
                 // もし遷移条件を満たしていて遷移名が一致するなら
-                if ((condition2transist == equalsTo) && t.Name == name)
+                if ((condition == equalsTo) && t.ID == id)
                 {
                     _currentPlayingStateMachineState.Exit(); // 右ステートへの遷移条件を満たしたので抜ける
                     if (OnExited != null)
                     {
-                        OnExited(_currentTransitionName);
+                        OnExited(_currentTransitionId);
                     }
 
-                    if (isTrigger) condition2transist = !equalsTo; // 遷移条件を初期化
+                    if (isTrigger) condition = !equalsTo; // 遷移条件を初期化
                     _currentPlayingStateMachineState = t.To; // 現在のステートを右ステートに更新、遷移はそのまま
                     _currentPlayingStateMachineState.Entry(); // 現在のステートの初回起動処理を呼ぶ
                     if (OnEntered != null)
                     {
-                        OnEntered(_currentTransitionName);
+                        OnEntered(_currentTransitionId);
                     }
 
-                    _currentTransitionName = name; // 現在の遷移ネームを更新
+                    _currentTransitionId = id; // 現在の遷移ネームを更新
                 }
                 // 遷移の条件を満たしてはいないが、遷移ネームが一致（更新されていないなら）現在のステートの更新処理を呼ぶ
-                else if (t.Name == name)
+                else if (t.ID == id)
                 {
                     _currentPlayingStateMachineState.Update();
                     if (OnUpdated != null)
                     {
-                        OnUpdated(_currentTransitionName);
+                        OnUpdated(_currentTransitionId);
                     }
                 }
             } // 全遷移を検索。

@@ -8,14 +8,14 @@ namespace Sarissa.StateMachine
         public IStateMachineState From => _from;
         IStateMachineState _to;
         public IStateMachineState To => _to;
-        string _name;
-        public string Name => _name;
+        int _id;
+        public int ID => _id;
 
-        public StateMachineTransition(IStateMachineState from, IStateMachineState to, string name)
+        public StateMachineTransition(IStateMachineState from, IStateMachineState to, int id)
         {
             _from = from;
             _to = to;
-            _name = name;
+            _id = id;
         }
     }
 }
