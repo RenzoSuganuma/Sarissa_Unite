@@ -37,7 +37,7 @@ namespace Sarissa.StateMachine
         #region 登録処理
 
         /// <summary> ステートの登録 </summary>
-        public void ResistState(IStateMachineState stateMachineState)
+        public void ResistState<T>(T stateMachineState) where T : IStateMachineState
         {
             _states.Add(stateMachineState);
             if (_currentPlayingStateMachineState == null)
@@ -47,44 +47,55 @@ namespace Sarissa.StateMachine
         }
 
         /// <summary> Anyからのステートの登録 </summary>
-        public void ResistStateFromAny(IStateMachineState stateMachineState)
+        public void ResistStateFromAny<T>(T stateMachineState) where T : IStateMachineState
         {
             _statesFromAnyState.Add(stateMachineState);
         }
 
         /// <summary> 複数のステートを引数に渡してすべての渡されたステートを登録 </summary>
-        public void ResistStates(List<IStateMachineState> states)
+        public void ResistStates<T>(List<T> states) where T : IStateMachineState
         {
-            foreach (IStateMachineState state in states)
+            foreach (var state in states)
             {
-                _states.Add(state);
+                IStateMachineState casted = state as IStateMachineState;
+
+                _states.Add(casted);
                 if (_currentPlayingStateMachineState == null)
                 {
-                    _currentPlayingStateMachineState = state;
+                    _currentPlayingStateMachineState = casted;
                 }
             }
         }
 
         /// <summary> 複数のステートを引数に渡してすべての渡されたAnyからのステートを登録 </summary>
-        public void ResistStatesFromAny(List<IStateMachineState> states)
+        public void ResistStatesFromAny<T>(List<T> states) where T : IStateMachineState
         {
-            foreach (IStateMachineState state in _statesFromAnyState)
+            foreach (var state in _statesFromAnyState)
             {
-                _states.Add(state);
+                IStateMachineState casted = state as IStateMachineState;
+
+                _states.Add(casted);
             }
         }
 
         /// <summary> ステート間の遷移の登録 </summary>
-        public void MakeTransition(IStateMachineState from, IStateMachineState to, string name)
+        public void MakeTransition<T1, T2>(T1 from, T2 to, string name)
+            where T1 : IStateMachineState
+            where T2 : IStateMachineState
         {
-            var tmp = new StateMachineTransition(from, to, name);
+            IStateMachineState t1 = from as IStateMachineState;
+            IStateMachineState t2 = to as IStateMachineState;
+            
+            var tmp = new StateMachineTransition(t1, t2, name);
             _transitions.Add(tmp);
         }
 
         /// <summary> Anyステートからの遷移の登録 </summary>
-        public void MakeTransitionFromAny(IStateMachineState to, string name)
+        public void MakeTransitionFromAny< T >(T to, string name) where T : IStateMachineState
         {
-            var tmp = new StateMachineTransition(new DummyStateMachineStateClass(), to, name);
+            IStateMachineState t = to as IStateMachineState;
+            
+            var tmp = new StateMachineTransition(new DummyStateMachineStateClass(), t, name);
             _transitionsFromAny.Add(tmp);
         }
 
@@ -195,7 +206,7 @@ namespace Sarissa.StateMachine
 
         #endregion
     }
-    
+
     /// <summary> ステート遷移のタイプ </summary>
     enum StateMachineTransitionType
     {

@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e316c7a9-4043-470d-acfe-1a2c542b8015" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/Samples/SampleNode1.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/Samples/SampleNode1.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/Samples/SampleNode2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/BehaviourTree/Samples/SampleNode2.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/General/UpCastFailedException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/General/UpCastFailedException.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaBTNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaSequenceMachineNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaBTNode.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaSequenceMachineNode.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaEnhancedSM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaSM.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaEnhancedSM.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaSM.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaMinimalSM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaSequenceMachine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaMinimalSM.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaSequenceMachine.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UnitTester.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UnitTester.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaSM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sarissa_Major/LibraryCore/StateMachine/SarissaSM.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,6 +98,7 @@
       <updated>1720692182513</updated>
       <workItem from="1720692186723" duration="2333000" />
       <workItem from="1720843302969" duration="251000" />
+      <workItem from="1720843655029" duration="710000" />
     </task>
     <servers />
   </component>
