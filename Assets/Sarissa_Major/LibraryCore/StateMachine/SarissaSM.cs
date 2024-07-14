@@ -85,16 +85,16 @@ namespace Sarissa.StateMachine
         {
             IStateMachineState t1 = from as IStateMachineState;
             IStateMachineState t2 = to as IStateMachineState;
-            
+
             var tmp = new StateMachineTransition(t1, t2, id);
             _transitions.Add(tmp);
         }
 
         /// <summary> Anyステートからの遷移の登録 </summary>
-        public void MakeTransitionFromAny< T >(T to, int id) where T : IStateMachineState
+        public void MakeTransitionFromAny<T>(T to, int id) where T : IStateMachineState
         {
             IStateMachineState t = to as IStateMachineState;
-            
+
             var tmp = new StateMachineTransition(new DummyStateMachineStateClass(), t, id);
             _transitionsFromAny.Add(tmp);
         }
@@ -108,30 +108,31 @@ namespace Sarissa.StateMachine
             bool isTrigger = false)
         {
             if (_isPausing) return; // もし一時停止中なら更新処理はしない。
-            foreach (var t in _transitions)
+            foreach (var transition in _transitions)
             {
                 // 遷移する場合 // * 条件を満たしているなら前トランジションを無視してしまうのでその判定処理をはさむこと *
                 // もし遷移条件を満たしていて遷移名が一致するなら
-                if ((condition == equalsTo) && t.ID == id)
+                if (
+                    condition == equalsTo && transition.ID == id
+                                          &&
+                                          transition.From == _currentPlayingStateMachineState
+                )
                 {
-                    if (t.From == _currentPlayingStateMachineState) // 現在左ステートなら
+                    _currentPlayingStateMachineState.Exit(); // 右ステートへの遷移条件を満たしたので抜ける
+                    if (OnExited != null)
                     {
-                        _currentPlayingStateMachineState.Exit(); // 右ステートへの遷移条件を満たしたので抜ける
-                        if (OnExited != null)
-                        {
-                            OnExited(_currentTransitionId);
-                        }
-
-                        if (isTrigger) condition = !equalsTo; // IsTrigger が trueなら
-                        _currentPlayingStateMachineState = t.To; // 現在のステートを右ステートに更新、遷移はそのまま
-                        _currentPlayingStateMachineState.Entry(); // 現在のステートの初回起動処理を呼ぶ
-                        if (OnEntered != null)
-                        {
-                            OnEntered(_currentTransitionId);
-                        }
-
-                        _currentTransitionId = id; // 現在の遷移ネームを更新
+                        OnExited(_currentTransitionId);
                     }
+
+                    if (isTrigger) condition = !equalsTo; // IsTrigger が trueなら
+                    _currentPlayingStateMachineState = transition.To; // 現在のステートを右ステートに更新、遷移はそのまま
+                    _currentPlayingStateMachineState.Entry(); // 現在のステートの初回起動処理を呼ぶ
+                    if (OnEntered != null)
+                    {
+                        OnEntered(_currentTransitionId);
+                    }
+
+                    _currentTransitionId = id; // 現在の遷移ネームを更新
                 }
                 // 遷移の条件を満たしてはいないが、遷移ネームが一致（更新されていないなら）現在のステートの更新処理を呼ぶ
                 else
