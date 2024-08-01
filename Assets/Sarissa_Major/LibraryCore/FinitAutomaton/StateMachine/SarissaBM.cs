@@ -5,25 +5,26 @@ using System.Linq;
 using UnityEngine;
 using System;
 
-namespace SgLibUnite.BehaviourTree
+namespace Sarissa.FinitAutomaton
 {
-    /// <summary> ビヘイビアツリーの機能を提供 </summary>
-    public class SarissaBT
+    /// <summary> ステートマシーンの機能を提供 </summary>
+    public class SarissaBM
     {
-        private HashSet<SarissaBTBehaviour> _btBehaviours = new();
-        private HashSet<SarissaBTTransition> _btTransitions = new();
-        private SarissaBTBehaviour _currentBehaviour, _yieldedBehaviourNow;
+        private Dictionary<string, int> _transitionNameAndIdDic = new();
+        private HashSet<SarissaSMBehaviour> _smBehaviours = new();
+        private HashSet<SarissaSMTransition> _smTransitions = new();
+        private SarissaSMBehaviour _currentBehaviour, _yieldedBehaviourNow;
         private bool _isPausing;
         private bool _isYieldToEvent;
 
         public int CurrentBehaviourID
         {
-            get { return _btBehaviours.ToList().IndexOf(_currentBehaviour); }
+            get { return _smBehaviours.ToList().IndexOf(_currentBehaviour); }
         }
 
         public int CurrentYieldedBehaviourID
         {
-            get { return _btBehaviours.ToList().IndexOf(_yieldedBehaviourNow); }
+            get { return _smBehaviours.ToList().IndexOf(_yieldedBehaviourNow); }
         }
 
         public bool IsPaused
@@ -31,25 +32,30 @@ namespace SgLibUnite.BehaviourTree
             get { return _isPausing; }
         }
 
-        public SarissaBTBehaviour CurrentBehaviour
+        public SarissaSMBehaviour CurrentBehaviour
         {
             get { return _currentBehaviour; }
         }
 
-        public SarissaBTBehaviour CurrentYieldedEvent
+        public SarissaSMBehaviour CurrentYieldedEvent
         {
             get { return _yieldedBehaviourNow; }
         }
 
-        public void ResistBehaviours(params SarissaBTBehaviour[] btBehaviours)
+        public void ResistBehaviours(params SarissaSMBehaviour[] btBehaviours)
         {
-            _btBehaviours = btBehaviours.ToHashSet();
+            _smBehaviours = btBehaviours.ToHashSet();
             if (_currentBehaviour == null) _currentBehaviour = btBehaviours[0];
         }
 
-        public void MakeTransition(SarissaBTBehaviour from, SarissaBTBehaviour to, string name)
+        public void MakeTransition(SarissaSMBehaviour from, SarissaSMBehaviour to, string name)
         {
-            _btTransitions.Add(new SarissaBTTransition(from, to, name));
+            if (!_transitionNameAndIdDic.ContainsKey(name))
+            {
+                _transitionNameAndIdDic.Add(name, _transitionNameAndIdDic.Count);
+            }
+
+            _smTransitions.Add(new SarissaSMTransition(from, to, _transitionNameAndIdDic[name]));
         }
 
         public void UpdateTransition(string name, ref bool condition, bool equalsTo = true, bool isTrigger = false)
@@ -61,9 +67,9 @@ namespace SgLibUnite.BehaviourTree
 
             if (_isYieldToEvent) return;
 
-            foreach (var transition in _btTransitions)
+            foreach (var transition in _smTransitions)
             {
-                if ((condition == equalsTo) && transition.Name == name)
+                if ((condition == equalsTo) && transition.Id == _transitionNameAndIdDic[name])
                 {
                     if (transition.From == _currentBehaviour)
                     {
@@ -87,7 +93,8 @@ namespace SgLibUnite.BehaviourTree
             {
                 return;
             }
-            else if (_isYieldToEvent)
+
+            if (_isYieldToEvent)
             {
                 _yieldedBehaviourNow.Tick();
                 if (!_yieldedBehaviourNow.YieldManually)
@@ -97,17 +104,17 @@ namespace SgLibUnite.BehaviourTree
             }
         }
 
-        public void JumpTo(SarissaBTBehaviour behaviour)
+        public void JumpTo(SarissaSMBehaviour behaviour)
         {
-            if (_btBehaviours.Contains(behaviour))
+            if (_smBehaviours.Contains(behaviour))
             {
                 _currentBehaviour = behaviour;
             }
         }
 
-        public void YieldAllBehaviourTo(SarissaBTBehaviour behaviour)
+        public void YieldAllBehaviourTo(SarissaSMBehaviour behaviour)
         {
-            if (_btBehaviours.Contains(behaviour))
+            if (_smBehaviours.Contains(behaviour))
             {
                 _isYieldToEvent = true;
                 _yieldedBehaviourNow = behaviour;
@@ -115,9 +122,9 @@ namespace SgLibUnite.BehaviourTree
             }
         }
 
-        public void EndYieldBehaviourFrom(SarissaBTBehaviour behaviour)
+        public void EndYieldBehaviourFrom(SarissaSMBehaviour behaviour)
         {
-            if (_btBehaviours.Contains(behaviour))
+            if (_smBehaviours.Contains(behaviour))
             {
                 _isYieldToEvent = false;
                 _yieldedBehaviourNow.End();

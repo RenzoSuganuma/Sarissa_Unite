@@ -1,7 +1,7 @@
-namespace Sarissa.StateMachine
+namespace Sarissa.FinitAutomaton
 {
     /// <summary> ダミーのステートのクラス </summary>
-    class DummyStateMachineStateClass : IStateMachineState
+    class DummyStateMachineStateClass : SarissaSMBehaviour
     {
         public void Entry()
         {

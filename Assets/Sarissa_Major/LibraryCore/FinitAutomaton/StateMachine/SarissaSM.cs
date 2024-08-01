@@ -2,26 +2,27 @@
 
 using System.Collections.Generic;
 using System;
+using Sarissa.FinitAutomaton;
 
-namespace Sarissa.StateMachine
+namespace Sarissa.FinitAutomaton
 {
     /// <summary> ステートマシンの機能を提供する </summary>
     public class SarissaSM
     {
         // 通常ステート
-        HashSet<IStateMachineState> _states = new HashSet<IStateMachineState>();
+        HashSet<SarissaSMBehaviour> _states = new HashSet<SarissaSMBehaviour>();
 
         // Anyステートからのステート
-        HashSet<IStateMachineState> _statesFromAnyState = new HashSet<IStateMachineState>();
+        HashSet<SarissaSMBehaviour> _statesFromAnyState = new HashSet<SarissaSMBehaviour>();
 
         // トランジション
-        HashSet<StateMachineTransition> _transitions = new HashSet<StateMachineTransition>();
+        HashSet<SarissaSMTransition> _transitions = new HashSet<SarissaSMTransition>();
 
         // Anyからのトランジション
-        HashSet<StateMachineTransition> _transitionsFromAny = new HashSet<StateMachineTransition>();
+        HashSet<SarissaSMTransition> _transitionsFromAny = new HashSet<SarissaSMTransition>();
 
         // 現在突入しているステート
-        IStateMachineState _currentPlayingStateMachineState;
+        SarissaSMBehaviour _currentPlayingStateMachineState;
 
         // 現在突入しているトランジション名
         int _currentTransitionId;
@@ -37,7 +38,7 @@ namespace Sarissa.StateMachine
         #region 登録処理
 
         /// <summary> ステートの登録 </summary>
-        public void ResistState<T>(T stateMachineState) where T : IStateMachineState
+        public void ResistState<T>(T stateMachineState) where T : SarissaSMBehaviour
         {
             _states.Add(stateMachineState);
             if (_currentPlayingStateMachineState == null)
@@ -47,17 +48,17 @@ namespace Sarissa.StateMachine
         }
 
         /// <summary> Anyからのステートの登録 </summary>
-        public void ResistStateFromAny<T>(T stateMachineState) where T : IStateMachineState
+        public void ResistStateFromAny<T>(T stateMachineState) where T : SarissaSMBehaviour
         {
             _statesFromAnyState.Add(stateMachineState);
         }
 
         /// <summary> 複数のステートを引数に渡してすべての渡されたステートを登録 </summary>
-        public void ResistStates<T>(List<T> states) where T : IStateMachineState
+        public void ResistStates<T>(List<T> states) where T : SarissaSMBehaviour
         {
             foreach (var state in states)
             {
-                IStateMachineState casted = state as IStateMachineState;
+                SarissaSMBehaviour casted = state as SarissaSMBehaviour;
 
                 _states.Add(casted);
                 if (_currentPlayingStateMachineState == null)
@@ -68,11 +69,11 @@ namespace Sarissa.StateMachine
         }
 
         /// <summary> 複数のステートを引数に渡してすべての渡されたAnyからのステートを登録 </summary>
-        public void ResistStatesFromAny<T>(List<T> states) where T : IStateMachineState
+        public void ResistStatesFromAny<T>(List<T> states) where T : SarissaSMBehaviour
         {
             foreach (var state in _statesFromAnyState)
             {
-                IStateMachineState casted = state as IStateMachineState;
+                SarissaSMBehaviour casted = state as SarissaSMBehaviour;
 
                 _states.Add(casted);
             }
@@ -80,22 +81,22 @@ namespace Sarissa.StateMachine
 
         /// <summary> ステート間の遷移の登録 </summary>
         public void MakeTransition<T1, T2>(T1 from, T2 to, int id)
-            where T1 : IStateMachineState
-            where T2 : IStateMachineState
+            where T1 : SarissaSMBehaviour
+            where T2 : SarissaSMBehaviour
         {
-            IStateMachineState t1 = from as IStateMachineState;
-            IStateMachineState t2 = to as IStateMachineState;
+            SarissaSMBehaviour t1 = from as SarissaSMBehaviour;
+            SarissaSMBehaviour t2 = to as SarissaSMBehaviour;
 
-            var tmp = new StateMachineTransition(t1, t2, id);
+            var tmp = new SarissaSMTransition(t1, t2, id);
             _transitions.Add(tmp);
         }
 
         /// <summary> Anyステートからの遷移の登録 </summary>
-        public void MakeTransitionFromAny<T>(T to, int id) where T : IStateMachineState
+        public void MakeTransitionFromAny<T>(T to, int id) where T : SarissaSMBehaviour
         {
-            IStateMachineState t = to as IStateMachineState;
+            SarissaSMBehaviour t = to as SarissaSMBehaviour;
 
-            var tmp = new StateMachineTransition(new DummyStateMachineStateClass(), t, id);
+            var tmp = new SarissaSMTransition(new DummyStateMachineStateClass(), t, id);
             _transitionsFromAny.Add(tmp);
         }
 
@@ -113,12 +114,12 @@ namespace Sarissa.StateMachine
                 // 遷移する場合 // * 条件を満たしているなら前トランジションを無視してしまうのでその判定処理をはさむこと *
                 // もし遷移条件を満たしていて遷移名が一致するなら
                 if (
-                    condition == equalsTo && transition.ID == id
+                    condition == equalsTo && transition.Id == id
                                           &&
                                           transition.From == _currentPlayingStateMachineState
                 )
                 {
-                    _currentPlayingStateMachineState.Exit(); // 右ステートへの遷移条件を満たしたので抜ける
+                    _currentPlayingStateMachineState.End(); // 右ステートへの遷移条件を満たしたので抜ける
                     if (OnExited != null)
                     {
                         OnExited(_currentTransitionId);
@@ -126,7 +127,7 @@ namespace Sarissa.StateMachine
 
                     if (isTrigger) condition = !equalsTo; // IsTrigger が trueなら
                     _currentPlayingStateMachineState = transition.To; // 現在のステートを右ステートに更新、遷移はそのまま
-                    _currentPlayingStateMachineState.Entry(); // 現在のステートの初回起動処理を呼ぶ
+                    _currentPlayingStateMachineState.Begin(); // 現在のステートの初回起動処理を呼ぶ
                     if (OnEntered != null)
                     {
                         OnEntered(_currentTransitionId);
@@ -137,7 +138,7 @@ namespace Sarissa.StateMachine
                 // 遷移の条件を満たしてはいないが、遷移ネームが一致（更新されていないなら）現在のステートの更新処理を呼ぶ
                 else
                 {
-                    _currentPlayingStateMachineState.Update();
+                    _currentPlayingStateMachineState.Tick();
                     if (OnUpdated != null)
                     {
                         OnUpdated(_currentTransitionId);
@@ -154,9 +155,9 @@ namespace Sarissa.StateMachine
             foreach (var t in _transitionsFromAny)
             {
                 // もし遷移条件を満たしていて遷移名が一致するなら
-                if ((condition == equalsTo) && t.ID == id)
+                if ((condition == equalsTo) && t.Id == id)
                 {
-                    _currentPlayingStateMachineState.Exit(); // 右ステートへの遷移条件を満たしたので抜ける
+                    _currentPlayingStateMachineState.End(); // 右ステートへの遷移条件を満たしたので抜ける
                     if (OnExited != null)
                     {
                         OnExited(_currentTransitionId);
@@ -164,7 +165,7 @@ namespace Sarissa.StateMachine
 
                     if (isTrigger) condition = !equalsTo; // 遷移条件を初期化
                     _currentPlayingStateMachineState = t.To; // 現在のステートを右ステートに更新、遷移はそのまま
-                    _currentPlayingStateMachineState.Entry(); // 現在のステートの初回起動処理を呼ぶ
+                    _currentPlayingStateMachineState.Begin(); // 現在のステートの初回起動処理を呼ぶ
                     if (OnEntered != null)
                     {
                         OnEntered(_currentTransitionId);
@@ -173,9 +174,9 @@ namespace Sarissa.StateMachine
                     _currentTransitionId = id; // 現在の遷移ネームを更新
                 }
                 // 遷移の条件を満たしてはいないが、遷移ネームが一致（更新されていないなら）現在のステートの更新処理を呼ぶ
-                else if (t.ID == id)
+                else if (t.Id == id)
                 {
-                    _currentPlayingStateMachineState.Update();
+                    _currentPlayingStateMachineState.Tick();
                     if (OnUpdated != null)
                     {
                         OnUpdated(_currentTransitionId);
@@ -192,7 +193,7 @@ namespace Sarissa.StateMachine
         public void Start()
         {
             _isPausing = false;
-            _currentPlayingStateMachineState.Entry();
+            _currentPlayingStateMachineState.Begin();
         }
 
         #endregion

@@ -1,4 +1,4 @@
-using Sarissa.SequenceMachine;
+using Sarissa.FinitAutomaton.SequenceMachine;
 using UnityEngine;
 
 public class SampleNode2 : SarissaSequenceMachineNode

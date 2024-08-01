@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sarissa.SequenceMachine
+namespace Sarissa.FinitAutomaton.SequenceMachine
 {
     [Serializable]
     public abstract class SarissaSequenceMachineNode

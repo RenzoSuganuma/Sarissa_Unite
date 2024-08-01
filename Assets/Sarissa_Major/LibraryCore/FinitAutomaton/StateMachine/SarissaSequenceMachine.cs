@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 
-namespace Sarissa.SequenceMachine
+namespace Sarissa.FinitAutomaton.SequenceMachine
 {
     /// <summary> ステートマシンの機能を提供 </summary>
     public class SarissaSequenceMachine
