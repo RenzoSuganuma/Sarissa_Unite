@@ -7,7 +7,9 @@ namespace Sarissa
     {
         private Dictionary<string, Tuple<int, int>> _resolutionList = new Dictionary<string, Tuple<int, int>>()
         {
+            { "HD", new Tuple<int, int>(1280, 720) },
             { "Full HD", new Tuple<int, int>(1920, 1080) },
+            { "UHD", new Tuple<int, int>(3840, 2160) },
         };
 
         public Dictionary<string, Tuple<int, int>> GetResolutionList
@@ -15,16 +17,16 @@ namespace Sarissa
             get { return _resolutionList; }
         }
 
-        private List<int> _refreshRateList = new List<int>()
+        private List<string> _refreshRateList = new()
         {
-            60,
-            75,
-            120,
-            144,
-            165
+            "60",
+            "75",
+            "120",
+            "144",
+            "165"
         };
 
-        public List<int> GetRefreshRateList
+        public List<string> GetRefreshRateList
         {
             get { return _refreshRateList; }
         }

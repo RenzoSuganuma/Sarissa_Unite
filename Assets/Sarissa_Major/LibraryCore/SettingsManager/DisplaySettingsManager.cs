@@ -119,7 +119,7 @@ namespace Sarissa
                 var rate = rateRaw[rateIndex];
 
                 _refreshRateIndex = rateIndex;
-                RefreshRate = rate;
+                RefreshRate = int.Parse(rate);
             }
 
             void SetupActiveDisplaysDropdown() // アクティブなディスプレイをドロップダウンへ名前のみ渡す
@@ -160,7 +160,7 @@ namespace Sarissa
                 foreach (var rate in rates)
                 {
                     Dropdown.OptionData data = new Dropdown.OptionData();
-                    data.text = rate.ToString();
+                    data.text = rate;
                     optionData.Add(data);
                 }
 
