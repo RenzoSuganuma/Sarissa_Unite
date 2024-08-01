@@ -58,7 +58,7 @@ namespace Sarissa.FinitAutomaton
         {
             foreach (var state in states)
             {
-                SarissaSMBehaviour casted = state as SarissaSMBehaviour;
+                SarissaSMBehaviour casted = state;
 
                 _states.Add(casted);
                 if (_currentPlayingStateMachineState == null)
@@ -73,7 +73,7 @@ namespace Sarissa.FinitAutomaton
         {
             foreach (var state in _statesFromAnyState)
             {
-                SarissaSMBehaviour casted = state as SarissaSMBehaviour;
+                SarissaSMBehaviour casted = state;
 
                 _states.Add(casted);
             }
@@ -84,8 +84,8 @@ namespace Sarissa.FinitAutomaton
             where T1 : SarissaSMBehaviour
             where T2 : SarissaSMBehaviour
         {
-            SarissaSMBehaviour t1 = from as SarissaSMBehaviour;
-            SarissaSMBehaviour t2 = to as SarissaSMBehaviour;
+            SarissaSMBehaviour t1 = from;
+            SarissaSMBehaviour t2 = to;
 
             var tmp = new SarissaSMTransition(t1, t2, id);
             _transitions.Add(tmp);
@@ -94,7 +94,7 @@ namespace Sarissa.FinitAutomaton
         /// <summary> Anyステートからの遷移の登録 </summary>
         public void MakeTransitionFromAny<T>(T to, int id) where T : SarissaSMBehaviour
         {
-            SarissaSMBehaviour t = to as SarissaSMBehaviour;
+            SarissaSMBehaviour t = to;
 
             var tmp = new SarissaSMTransition(new DummyStateMachineStateClass(), t, id);
             _transitionsFromAny.Add(tmp);
