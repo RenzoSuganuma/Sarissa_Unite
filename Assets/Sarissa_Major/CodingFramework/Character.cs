@@ -4,15 +4,18 @@ using System;
 
 namespace Sarissa.CodingFramework
 {
-    public abstract class Character : CodingFramework
+    /// <summary>
+    /// 体力をもち、殺すことができるキャラクターのクラスの基底クラス
+    /// </summary>
+    public abstract class Character : EnhancedMonoBehaviour
     {
-        protected Single _healthPoint;
+        protected float _healthPoint = 0;
 
         /// <summary>
         /// ダメージを与える
         /// </summary>
-        /// <param name="damage"></param>
-        public void AddDamage(Single damage)
+        /// <param name="damage">ダメージ量</param>
+        public void AddDamage(float damage)
         {
             _healthPoint -= damage;
 
@@ -34,8 +37,8 @@ namespace Sarissa.CodingFramework
         /// <summary>
         /// 体力を返す
         /// </summary>
-        /// <returns></returns>
-        public virtual Single GetHealthPoint()
+        /// <returns>体力値</returns>
+        public virtual float GetHealthPoint()
         {
             return _healthPoint;
         }
@@ -43,8 +46,8 @@ namespace Sarissa.CodingFramework
         /// <summary>
         /// 渡された値を体力の値として体力値を初期化する
         /// </summary>
-        /// <param name="value"></param>
-        public virtual void SetHealthPoint(Single value)
+        /// <param name="value">新しく初期化する値</param>
+        public virtual void SetHealthPoint(float value)
         {
             _healthPoint = value;
         }

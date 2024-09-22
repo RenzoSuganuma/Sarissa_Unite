@@ -6,12 +6,12 @@ using UnityEngine;
 namespace Sarissa.Devicies
 {
     /// <summary> ゲームパッドの振動をさせる機能を提供する </summary>
-    public class GamepadRumbler : MonoBehaviour
+    public class GamepadRuntimeRumbler : MonoBehaviour
     {
-        Gamepad _gamepad;
-
         /// <summary> 振動プリセット 左から 左の振動 右の振動 振動の時間 </summary>
-        [SerializeField] GamepadRamblePreset _rumblePreset;
+        [SerializeField] private GamepadRamblePreset _rumblePreset;
+
+        private Gamepad _gamepad;
 
         private void Start()
         {

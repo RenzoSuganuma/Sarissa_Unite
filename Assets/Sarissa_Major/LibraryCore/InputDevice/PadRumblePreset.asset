@@ -12,7 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4b02268b53bac741bc45d739c65da41, type: 3}
   m_Name: PadRumblePreset
   m_EditorClassIdentifier: 
-  _rumbleTable:
-  - _lowFreq_L: 0.5
-    _highFreq_R: 1
-    _rumblingTime: 0.5
+  rumbleTable: []
